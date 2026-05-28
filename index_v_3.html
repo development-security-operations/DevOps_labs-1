@@ -1,0 +1,278 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Docker Guide & George's DevOps Portfolio</title>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;800&display=swap" rel="stylesheet">
+    <style>
+        /* Базовые переменные для светлой темы */
+        :root {
+            --primary-color: #0db7ed;
+            --bg-color: #f4f7f6;
+            --text-color: #333;
+            --card-bg: #fff;
+            --header-bg-start: #1d2021;
+            --header-bg-end: #2a2d2e;
+            --repo-bg: #eef2f5;
+            --heading-color: #1d2021;
+        }
+
+        /* Переменные для тёмной темы (Dark Mode), активируются через атрибут */
+        :root[data-theme="dark"] {
+            --bg-color: #121212;
+            --text-color: #e0e0e0;
+            --card-bg: #1e1e1e;
+            --repo-bg: #2a2d2e;
+            --heading-color: #e0e0e0;
+        }
+
+        body {
+            font-family: 'Inter', sans-serif;
+            line-height: 1.8;
+            color: var(--text-color);
+            background-color: var(--bg-color);
+            margin: 0;
+            padding: 0;
+            transition: background-color 0.3s, color 0.3s;
+        }
+
+        header {
+            background: linear-gradient(135deg, var(--header-bg-start) 0%, var(--header-bg-end) 100%);
+            color: #fff;
+            padding: 3rem 0;
+            text-align: center;
+            border-bottom: 4px solid var(--primary-color);
+            position: relative; /* Необходимо для абсолютного позиционирования кнопки */
+        }
+
+        header h1 {
+            margin: 0;
+            font-size: 2.8rem;
+            font-weight: 800;
+        }
+
+        header p {
+            font-size: 1.2rem;
+            color: #ccc;
+        }
+
+        header a {
+            color: var(--primary-color);
+            text-decoration: none;
+            font-weight: 600;
+            transition: color 0.3s ease;
+        }
+
+        header a:hover {
+            color: #fff;
+            text-decoration: underline;
+        }
+
+        /* Стили для кнопки переключения темы */
+        .theme-toggle {
+            position: absolute;
+            top: 20px;
+            right: 20px;
+            background: rgba(255, 255, 255, 0.1);
+            border: 1px solid rgba(255, 255, 255, 0.3);
+            color: #fff;
+            border-radius: 50%;
+            width: 45px;
+            height: 45px;
+            font-size: 1.2rem;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .theme-toggle:hover {
+            background: var(--primary-color);
+            border-color: var(--primary-color);
+            transform: scale(1.1);
+        }
+
+        .container {
+            max-width: 1000px;
+            margin: 2rem auto;
+            padding: 0 20px;
+        }
+
+        .card {
+            background: var(--card-bg);
+            border-radius: 12px;
+            padding: 2.5rem;
+            margin-bottom: 2rem;
+            box-shadow: 0 4px 6px rgba(0,0,0,0.05);
+            transition: transform 0.3s ease, box-shadow 0.3s ease, background-color 0.3s;
+        }
+
+        .card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 12px 20px rgba(0,0,0,0.1);
+        }
+
+        h2, h3 {
+            color: var(--heading-color);
+            transition: color 0.3s;
+        }
+
+        h2 {
+            border-bottom: 2px solid var(--primary-color);
+            padding-bottom: 0.5rem;
+            margin-top: 0;
+        }
+
+        .btn {
+            display: inline-block;
+            background: var(--primary-color);
+            color: #fff;
+            padding: 12px 24px;
+            text-decoration: none;
+            border-radius: 8px;
+            margin-right: 10px;
+            margin-bottom: 10px;
+            font-weight: 600;
+            box-shadow: 0 4px 6px rgba(0,0,0,0.1);
+            transition: background 0.3s ease, transform 0.2s ease, box-shadow 0.2s ease;
+        }
+
+        .btn:hover {
+            background: #0994c1;
+            transform: translateY(-2px);
+            box-shadow: 0 6px 12px rgba(0,183,237,0.3);
+        }
+
+        .repo-list {
+            list-style: none;
+            padding: 0;
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 20px;
+        }
+
+        .repo-list li {
+            background: var(--repo-bg);
+            padding: 20px;
+            border-radius: 8px;
+            border-left: 4px solid var(--primary-color);
+            transition: transform 0.3s ease, background-color 0.3s;
+        }
+
+        .repo-list li:hover {
+            transform: translateY(-3px);
+        }
+
+        .repo-list a {
+            text-decoration: none;
+            color: var(--heading-color);
+            font-size: 1.2rem;
+            font-weight: 800;
+            transition: color 0.3s;
+        }
+
+        .repo-list a:hover {
+            color: var(--primary-color);
+        }
+
+        ul {
+            padding-left: 20px;
+        }
+    </style>
+</head>
+<body>
+
+    <header>
+        <!-- Кнопка переключения темы -->
+        <button id="theme-toggle" class="theme-toggle" aria-label="Переключить тему" title="Изменить тему">🌙</button>
+
+        <h1>George (george_devops)</h1>
+        <p>DevOps Engineer | Moscow, Russia | Telegram: <a href="https://t.me/georgedevops" target="_blank">@georgedevops</a></p>
+        <p>GitHub: <a href="https://github.com/development-security-operations" target="_blank">development-security-operations</a></p>
+    </header>
+
+    <div class="container">
+        
+        <div class="card" id="download">
+            <h2>Скачать Docker Desktop</h2>
+            <p>Docker Desktop — это простое в установке приложение для создания и обмена контейнеризованными приложениями и микросервисами.</p>
+            <div>
+                <a href="https://docs.docker.com/desktop/install/mac-install/" class="btn" target="_blank">Скачать для Mac</a>
+                <a href="https://docs.docker.com/desktop/install/windows-install/" class="btn" target="_blank">Скачать для Windows</a>
+                <a href="https://docs.docker.com/desktop/install/linux-install/" class="btn" target="_blank">Инструкции для Linux</a>
+            </div>
+            <p><small>* Linux поддерживается для Ubuntu, Debian, Fedora, Arch и RHEL.</small></p>
+        </div>
+
+        <div class="card" id="docker-info">
+            <h2>Введение в Docker и Контейнеризацию</h2>
+            <p><strong>Docker</strong> — это платформа с открытым исходным кодом, которая упаковывает программное обеспечение в стандартизированные блоки, называемые <em>контейнерами</em>. Контейнер включает в себя как сам код приложения, так и его среду, включая библиотеки, системные инструменты и среду выполнения.</p>
+            
+            <h3>Контейнеры против Виртуальных Машин (VM)</h3>
+            <p>Главное отличие контейнеров от виртуальных машин (VM) заключается в уровне абстракции. Виртуальные машины виртуализируют всё оборудование и требуют полноценной гостевой ОС, что создает высокую нагрузку. Контейнеры же виртуализируют только операционную систему, деля ядро хост-системы. Это делает контейнеры легковесными, быстрыми (запускаются за миллисекунды) и переносимыми.</p>
+
+            <h3>Best Practices (Лучшие практики Docker)</h3>
+            <ul>
+                <li><strong>Используйте многоэтапные сборки (Multi-stage builds):</strong> Разделяйте этапы компиляции и выполнения, чтобы в финальный образ попадали только нужные бинарные файлы. Это сильно уменьшает вес образа.</li>
+                <li><strong>Не работайте от пользователя root:</strong> По умолчанию процессы в контейнере работают от root, что создает риски безопасности. Создавайте пользователя без привилегий (non-root user).</li>
+                <li><strong>Выбирайте минимальные базовые образы:</strong> Используйте образы вроде <code>alpine</code> или Distroless. Они содержат меньше уязвимостей и экономят место на диске.</li>
+                <li><strong>Используйте .dockerignore:</strong> Не копируйте лишние файлы (логи, локальные зависимости, секреты) в контекст сборки.</li>
+            </ul>
+        </div>
+
+        <div class="card" id="github-projects">
+            <h2>Мои проекты на GitHub</h2>
+            <p>Study hard, work hard. Актуальные репозитории:</p>
+            <ul class="repo-list">
+                <li>
+                    <a href="https://github.com/development-security-operations/MyRoadToDevOps" target="_blank">MyRoadToDevOps</a>
+                    <p>J4Fun — мой путь и наработки в мире DevOps.</p>
+                </li>
+                <li>
+                    <a href="https://github.com/development-security-operations/portfolio" target="_blank">portfolio</a>
+                    <p>Репозиторий-портфолио.</p>
+                </li>
+                <li>
+                    <a href="https://github.com/development-security-operations/hello-world" target="_blank">hello-world</a>
+                    <p>This is my first repository on GitHub!</p>
+                </li>
+            </ul>
+        </div>
+
+    </div>
+
+    <!-- Скрипт для работы переключателя тем -->
+    <script>
+        const themeToggleBtn = document.getElementById('theme-toggle');
+        const rootElement = document.documentElement;
+
+        // Проверяем сохраненную тему в localStorage или системные настройки
+        const savedTheme = localStorage.getItem('theme');
+        const systemPrefersDark = window.matchMedia('(prefers-color-scheme: dark)').matches;
+        
+        if (savedTheme === 'dark' || (!savedTheme && systemPrefersDark)) {
+            rootElement.setAttribute('data-theme', 'dark');
+            themeToggleBtn.textContent = '☀️';
+        } else {
+            rootElement.setAttribute('data-theme', 'light');
+            themeToggleBtn.textContent = '🌙';
+        }
+
+        // Логика переключения по клику
+        themeToggleBtn.addEventListener('click', () => {
+            const currentTheme = rootElement.getAttribute('data-theme');
+            if (currentTheme === 'dark') {
+                rootElement.setAttribute('data-theme', 'light');
+                localStorage.setItem('theme', 'light');
+                themeToggleBtn.textContent = '🌙';
+            } else {
+                rootElement.setAttribute('data-theme', 'dark');
+                localStorage.setItem('theme', 'dark');
+                themeToggleBtn.textContent = '☀️';
+            }
+        });
+    </script>
+</body>
+</html>
