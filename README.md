@@ -9,16 +9,16 @@ My first lab on work
 
 ## Гайд по установке и запуску.
 * **1. Подготовка** Скачиваем всё на хост, и переходим в папку что скачали
-   '''bash
-cd absolute_way\docker_project_1
+  ```bash
+  cd absolute_way\docker_project_1
 * **2. Сборка Docker-образа** Соберите образ из Dockerfile. Команда ниже прочитает инструкции и создаст слоистый образ:
-      docker build -t my-caddy-site .
-'''bash
+  ```bash 
+  docker build -t my-caddy-site .
 
 * **3. Запуск контейнера** Запустите изолированный контейнер в фоновом режиме (флаг -d), пробросив порт 8080 вашего компьютера на порт 80 внутри контейнера:
-docker run -d -p 8080:80 --name my-portfolio-container my-caddy-site
+  ```bash
+  docker run -d -p 8080:80 --name my-portfolio-container my-caddy-site
 
 * **4. Проверка результата** Введите в поисковую строку браузера ссылку ниже и наслаждайтесь своим запущенным контейнером и красивым сайтом:
-      👉 http://localhost:8080
-'''bash
-
+  ```bash 
+  http://localhost:8080
